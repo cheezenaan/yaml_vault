@@ -22,8 +22,11 @@ module YamlVault
 
           # Fallback to config.secret_key_base if secrets.secret_key_base isn't set
           secrets.secret_key_base ||= config.secret_key_base
-          # Fallback to config.secret_token if secrets.secret_token isn't set
-          secrets.secret_token ||= config.secret_token
+
+          if Gem::Version.new(::Rails::VERSION::STRING) < Gem::Version.new("6.0")
+            # Fallback to config.secret_token if secrets.secret_token isn't set
+            secrets.secret_token ||= config.secret_token
+          end
 
           secrets
         end
